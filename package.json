@@ -1,0 +1,16 @@
+{
+  "name": "algorithms",
+  "version": "1.0.0",
+  "description": "Problems of Algorithm",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --verbose"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "jest": "^27.0.6"
+  }
+}
