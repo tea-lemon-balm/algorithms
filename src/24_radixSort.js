@@ -37,3 +37,4 @@ var arr = ["g", "e", "e", "k", "s", "f", "o", "r", "g", "e", "e", "k", "s"];
 
 arr = countingSort(arr);
 // This code is contributed by shikhasingrajput
+console.log(arr);
