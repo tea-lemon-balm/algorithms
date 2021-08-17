@@ -1,56 +1,29 @@
 const robotPath = function (room, src, dst) {
   // TODO: 여기에 코드를 작성합니다.
-  const adj = {};
-  const roomX = room[0].length;
-  const roomY = room.length;
-  // record the visited node in the visited
-  const visited = {};
-  // make a adjacent list - Start
-  for (let n = 0; n < roomX; n++) {
-    for (let m = 0; m < roomY; m++) {
-      const mn = String(m) + String(n);
-      adj[mn] = [];
-      if (!room[m][n]) {
-        if (m + 1 < roomY) if (!room[m + 1][n]) adj[mn].push([m + 1, n]);
-        if (m - 1 > -1) if (!room[m - 1][n]) adj[mn].push([m - 1, n]);
-        if (n + 1 < roomX) if (!room[m][n + 1]) adj[mn].push([m, n + 1]);
-        if (n - 1 > -1) if (!room[m][n - 1]) adj[mn].push([m, n - 1]);
-      }
+  /**
+   * * bfs를 구현했으나 중요한 건 해당 위치에 왔을 때 tree level를 return value로 줘야 하지만 안 된다.
+   */
+  const adjList = findAdjacencyList(room);
+  let minCount = Infinity;
+  // TODO DFS로 풀면 쉽게 풀릴 것 같다.
+  // TODO efficient algorithm을 써야 한다. 현재 20x20이 오래 걸리는 걸로 나온다.
+  dfs(src.join(""));
+  return minCount;
+  function dfs(root, count = 0, visited = []) {
+    if (visited.includes(root)) {
+      return false;
     }
+    if (root === dst.join("")) {
+      if (minCount > count) minCount = count;
+      return count;
+    }
+    visited.push(root);
+    for (let i = 0; i < adjList[root].length; i++) {
+      dfs(adjList[root][i], count + 1, visited.slice(0));
+    }
+    return true;
   }
-  // make a adjection list - End
-  // BFS
-  const result = bfs(adj, src, dst);
-  return result;
 };
-
-// function dfs(adj, src, dst, visited = {}) {
-//   for (let next of adj[src.join("")]) {
-//     if (!visited[next.join("")]) {
-//       visited[next.join("")] = true;
-//       dfs(adj, next, dst, visited);
-//     }
-//   }
-// }
-
-function bfs(adj, src, dst) {
-  const queue = adj[src.join("")];
-  const searched = [src.join("")];
-  let count = 0;
-  while (queue.length > 0) {
-    let node = queue.shift();
-    if (!searched.includes(node.join(""))) {
-      count++;
-      if (node === dst.join("")) {
-        return count;
-      } else {
-        queue.push(...adj[node.join("")]);
-        searched.push(node.join(""));
-      }
-    }
-  }
-  return count;
-}
 
 let room = [
   [0, 0, 0, 0, 0, 0],
@@ -61,4 +34,50 @@ let room = [
 ];
 let src = [4, 2];
 let dst = [2, 2];
-robotPath(room, src, dst);
+console.log(robotPath(room, src, dst));
+
+room = [
+  [0, 0, 0, 0, 0, 0, 0],
+  [1, 1, 1, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+  [1, 0, 1, 1, 1, 0, 1],
+  [0, 0, 1, 0, 0, 0, 1],
+  [0, 0, 1, 0, 1, 1, 1],
+  [0, 0, 1, 0, 1, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0],
+];
+src = [0, 3];
+dst = [7, 3];
+
+console.log(robotPath(room, src, dst));
+
+function findAdjacencyList(grid) {
+  const height = grid.length;
+  const width = grid[0].length;
+  const adjacencyList = {};
+  for (let m = 0; m < height; m++) {
+    for (let n = 0; n < width; n++) {
+      const pos = [m, n].join("");
+      adjacencyList[pos] = [];
+      if (grid[m][n] === 0) {
+        if (m - 1 > -1) {
+          if (grid[m - 1][n] === 0)
+            adjacencyList[pos].push([m - 1, n].join(""));
+        }
+        if (m + 1 < height) {
+          if (grid[m + 1][n] === 0)
+            adjacencyList[pos].push([m + 1, n].join(""));
+        }
+        if (n - 1 > -1) {
+          if (grid[m][n - 1] === 0)
+            adjacencyList[pos].push([m, n - 1].join(""));
+        }
+        if (n + 1 < width) {
+          if (grid[m][n + 1] === 0)
+            adjacencyList[pos].push([m, n + 1].join(""));
+        }
+      }
+    }
+  }
+  return adjacencyList;
+}

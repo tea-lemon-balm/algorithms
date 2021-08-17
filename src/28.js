@@ -1,19 +1,13 @@
 const robotPath2 = function (room, src, sDir, dst, dDir) {
-  // 가로와 세로의 길이
   const R = room.length;
   const C = room[0].length;
-  // 4가지 방향: 위(1), 오른쪽(2), 아래(3), 왼쪽(4)
-  // 차례대로 [방향, 상하이동, 좌우이동]
   const MOVES = [
     [1, -1, 0], // UP
     [2, 0, 1], // RIGHT
     [3, 1, 0], // DOWN
     [4, 0, -1], // LEFT
   ];
-
-  // 좌표가 유효한 좌표인지 확인하는 함수
   const isValid = (row, col) => row >= 0 && row < R && col >= 0 && col < C;
-
   // 각 위치별 최소의 동작으로 도달 가능한 경우의 방향을 저장
   const directions = [];
   // 각 위치별 최소 동작의 수를 저장. 편의상 거리(dist)로 표현
