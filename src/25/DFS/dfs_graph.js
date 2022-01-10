@@ -16,6 +16,8 @@ function bfs(G, s) {
   const Q = [];
   Q.push(s);
   console.log(Q)
+  // return parent;
+  // return color;
   // 초기 설정 끝
   while (Q.length !== 0) {
     const u = Q.shift();
@@ -30,7 +32,7 @@ function bfs(G, s) {
     color[u] = 'black';
     console.log(Q)
   }
-  return distance;
+  return parent;
 }
 
 

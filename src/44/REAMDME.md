@@ -1,0 +1,1 @@
+- permutations을 구하고 각 permutation의 거리를 구한다. 

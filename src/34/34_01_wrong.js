@@ -1,26 +1,28 @@
 const LCS = function (str1, str2) {
   //TODO: 여기에 코드를 작성합니다.
-  const lis1 = LIS(str1);
-  const lis2 = LIS(str2);
-  return [lis1, lis2];
+  const lis1s = LIS(str1);
+  const lis2s = LIS(str2);
+  let max='';
+  for (let lis1 of lis1s) {
+    for (let lis2 of lis2s) {
+      if ((lis1 === lis2) && max.length < lis2.length) {
+        max = lis2;
+      }
+    }
+  }
+  return max.length;
 };
 
 
 const LIS = function (arr) {
   const N = arr.length;
-  const lis = Array(N).fill(1).map((el) => [1, []]);
+  const lis = Array(N).fill(1).map((el) => []);
   for (let i = 1; i < N; i++) {
     for (let j = 0; j < i; j++) {
-      if (arr[i] > arr[j] && lis[i][0] < lis[j][0] + 1) {
-        if (lis[j][0] === 1) lis[i][1].push(arr[j], arr[i]);
-        if (lis[j][0] > 1) lis[i][1] = lis[j][1].concat(arr[i]);
-        lis[i][0] = lis[j][0] + 1;
-      }
+      lis[i].push(arr[j] + arr[i]);
+      if (lis[j].length > 0) lis[i].push(...lis[j].map((el) => el + arr[i]))
     }
   }
-  return lis;
+  const result = lis.flat();
+  return result;
 };
-
-let output = LCS('abcd', 'aceb');
-console.log(output[0]);
-console.log(output[1]);

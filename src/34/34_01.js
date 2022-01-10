@@ -1,3 +1,4 @@
+// 한 개의 같은 문자가 있을 때를 체크 못함.
 const LCS = function (str1, str2) {
   //TODO: 여기에 코드를 작성합니다.
   const lis1s = LIS(str1);

@@ -56,6 +56,7 @@ function longestPalindrome(str) {
         isPalindrome[startIdx + 1][endIdx - 1] === true &&
         str[startIdx] === str[endIdx]
       ) {
+        console.log("1", str[startIdx], "2", str[endIdx], "3", str.slice(startIdx, endIdx + 1))
         isPalindrome[startIdx][endIdx] = true;
         maxLen = len;
       }
@@ -64,3 +65,10 @@ function longestPalindrome(str) {
 
   return maxLen;
 }
+
+let str = "My dad is a racecar athlete";
+str = "There is a tattarrattat   ";
+str = 'aibohphobia';
+let result = longestPalindrome(str);
+console.log(result);
+
